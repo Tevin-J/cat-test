@@ -18,9 +18,15 @@ type PropsType = OwnPropsType & MDTPType
 const Wrapper = styled.div`
   margin-left: 5px;
   border: 2px solid skyblue;
+  position: relative;
   :hover {
     background-color:skyblue;
     cursor: pointer;
+  }
+  button {
+    position: absolute;
+    top: 0;
+    right: 0;
   }
 `
 const Item = (props: PropsType) => {
@@ -29,9 +35,12 @@ const Item = (props: PropsType) => {
     const id = props.id
     const more = props.more
     return (
-        <Wrapper onClick={() => props.getCatInfo(id, more)}>
-            <div>{name}</div>
-            <div>{shortInfo}</div>
+        <Wrapper >
+            <div onClick={() => props.getCatInfo(id, more)}>
+                <div>{name}</div>
+                <div>{shortInfo}</div>
+            </div>
+            <button>X</button>
         </Wrapper>
     )
 }

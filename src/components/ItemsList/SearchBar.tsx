@@ -1,4 +1,4 @@
-import React from "react";
+import React, {ChangeEvent, ChangeEventHandler} from "react";
 import styled from "styled-components";
 
 
@@ -9,11 +9,18 @@ const InputWrapper = styled.div`
     width: 100%;
   }
 `
-
-const SearchBar = () => {
+type OwnPropsType = {
+    updateSearch: (newText: string) => void
+    term: string
+}
+type PropsType = OwnPropsType
+const SearchBar = (props: PropsType) => {
+    const onInputChanged = (e: ChangeEvent<HTMLInputElement>) => {
+        props.updateSearch(e.currentTarget.value.trimLeft())
+    }
     return (
         <InputWrapper>
-            <input placeholder={'search'}/>
+            <input placeholder={'search'} value={props.term} onChange={onInputChanged}/>
         </InputWrapper>
     )
 }

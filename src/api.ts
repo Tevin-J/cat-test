@@ -11,7 +11,7 @@ type GetCatsResponseType = {
     data: Array<CatType>
 }
 type GetCatPicType = {
-
+    pic: string
 }
 const instance = axios.create({
     baseURL: `https://cors-anywhere.herokuapp.com/https://mrsoft.by/tz20/`

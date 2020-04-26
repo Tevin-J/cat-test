@@ -8,22 +8,23 @@ type MSTPType = {
     cats: Array<CatType>
     currentCatId: number | null
     currentCatInfo: CatInfoType
-    currentCatPic: string
 }
 type PropsType = MSTPType
+
 const Wrapper = styled.div`
   margin: 30px;
 `
 const ItemDetails = (props: PropsType) => {
+    /*props*/
     const currentCatId = props.currentCatId
     const cats = props.cats
     const currentCatInfo = props.currentCatInfo
-    const currentCatPic = props.currentCatPic
+
     if (cats && currentCatId) {
         return (
             <Wrapper>
                 <h1>{cats.filter((cat: CatType) => cat.id === currentCatId)[0].name}</h1>
-                <img src={currentCatPic}/>
+                <img src={`https://mrsoft.by/tz20/${currentCatInfo.pic}`}/>
                 <div>{currentCatInfo.bio}</div>
             </Wrapper>
         )
@@ -39,8 +40,7 @@ const mstp = (state: AppStateType): MSTPType => {
     return {
         cats: state.catsList.cats,
         currentCatId: state.catsList.currentCatId,
-        currentCatInfo: state.catsList.currentCatInfo,
-        currentCatPic: state.catsList.catPic
+        currentCatInfo: state.catsList.currentCatInfo
     }
 }
 export default connect<MSTPType, {}, {}, AppStateType>(mstp, {})(ItemDetails)

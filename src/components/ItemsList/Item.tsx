@@ -1,8 +1,9 @@
-import React from "react";
+import React, {useState} from "react";
 import styled from "styled-components";
 import {connect} from "react-redux";
 import {AppStateType} from "../../store";
 import {getCatInfo} from "../../reducer";
+import './Item.css'
 
 type OwnPropsType = {
     id: number
@@ -21,7 +22,6 @@ const Wrapper = styled.div`
   position: relative;
   :hover {
     background-color:skyblue;
-    cursor: pointer;
   }
   button {
     position: absolute;
@@ -29,18 +29,24 @@ const Wrapper = styled.div`
     right: 0;
   }
 `
+
 const Item = (props: PropsType) => {
+    /*props*/
     const name = props.name
     const shortInfo = props.shortInfo
     const id = props.id
     const more = props.more
+    /*hook*/
+    const [isCatRemoved, removeCat] = useState(false)
+    /*classForRemovedCat*/
+    const classesForCat = isCatRemoved ? 'removedCat' : ''
     return (
-        <Wrapper >
+        <Wrapper className={classesForCat}>
             <div onClick={() => props.getCatInfo(id, more)}>
                 <div>{name}</div>
                 <div>{shortInfo}</div>
             </div>
-            <button>X</button>
+            {isCatRemoved ? '' : <button onClick={() => removeCat(true)}>X</button>}
         </Wrapper>
     )
 }

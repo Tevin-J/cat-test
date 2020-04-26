@@ -5,20 +5,20 @@ import { api } from "./api";
 export const SET_CATS = 'SET_CATS'
 export const TOGGLE_CURRENT_CAT = 'TOGGLE_CURRENT_CAT'
 export const SET_CAT_INFO = 'SET_CAT_INFO'
-export const SET_CAT_PIC = 'SET_CAT_PIC'
 
 type InitialStateType = {
     cats: Array<CatType>
     currentCatId: number | null
     currentCatInfo: CatInfoType
-    catPic: string
 }
+
 const initialState: InitialStateType = {
     cats: [],
     currentCatId: null,
     currentCatInfo: {} as CatInfoType,
-    catPic: ''
+    /*catPic: ''*/
 }
+
 const reducer = (state: InitialStateType = initialState, action: AppActionType): InitialStateType => {
     switch (action.type) {
         case SET_CATS:
@@ -35,11 +35,6 @@ const reducer = (state: InitialStateType = initialState, action: AppActionType):
             return {
                 ...state,
                 currentCatInfo: action.catInfo
-            }
-        case SET_CAT_PIC:
-            return {
-                ...state,
-                catPic: action.catPic
             }
         default:
             return state
@@ -58,16 +53,11 @@ type SetCatInfoType = {
     type: typeof SET_CAT_INFO
     catInfo: CatInfoType
 }
-type SetCatPicSuccessType = {
-    type: typeof SET_CAT_PIC
-    catPic: string
-}
-type AppActionType = SetCatsType | ToggleCurrentCatType | SetCatInfoType | SetCatPicSuccessType
+type AppActionType = SetCatsType | ToggleCurrentCatType | SetCatInfoType /*| SetCatPicSuccessType*/
 /*action creators*/
 const setCatsSuccess = (cats: Array<CatType>): SetCatsType => ({type: SET_CATS, cats})
-export const toggleCurrentCat = (id: number): ToggleCurrentCatType => ({type: TOGGLE_CURRENT_CAT, id})
+const toggleCurrentCat = (id: number): ToggleCurrentCatType => ({type: TOGGLE_CURRENT_CAT, id})
 const setCatInfoSuccess = (catInfo: CatInfoType): SetCatInfoType => ({type: SET_CAT_INFO, catInfo})
-const setCatPicSuccess = (catPic: any): SetCatPicSuccessType => ({type: SET_CAT_PIC, catPic})
 /*thunk creators*/
 type ThunkType = ThunkAction<void, AppStateType, unknown, AppActionType>
 export const getCats = (): ThunkType => (dispatch: ThunkDispatch<AppStateType, unknown, AppActionType>,
@@ -86,17 +76,6 @@ export const getCatInfo = (id: number, more: string): ThunkType => (dispatch: Th
     api.getCatInfo(more)
         .then(response => {
             dispatch(setCatInfoSuccess(response.data))
-            dispatch(getCatPic(response.data.pic))
-        })
-        .catch(error => {
-            console.log(error);
-        })
-}
-const getCatPic = (picUrl: string): ThunkType => (dispatch: ThunkDispatch<AppStateType, unknown, AppActionType>,
-                                            getState: () => AppStateType) => {
-    api.getCatPic(picUrl)
-        .then(response => {
-            dispatch(setCatPicSuccess(response.data))
         })
         .catch(error => {
             console.log(error);

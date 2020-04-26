@@ -10,12 +10,11 @@ type GetCatsResponseType = {
     basepath: string
     data: Array<CatType>
 }
-type GetCatPicType = {
-    pic: string
-}
+/*create api response instance*/
 const instance = axios.create({
     baseURL: `https://cors-anywhere.herokuapp.com/https://mrsoft.by/tz20/`
 })
+/*api responses*/
 export const api = {
     getCats() {
         return (
@@ -25,11 +24,6 @@ export const api = {
     getCatInfo(more: string) {
         return (
             instance.get<GetCatInfoType>(`${more}`)
-        )
-    },
-    getCatPic(picUrl: string) {
-        return (
-            instance.get<GetCatPicType>(`${picUrl}`)
         )
     }
 }

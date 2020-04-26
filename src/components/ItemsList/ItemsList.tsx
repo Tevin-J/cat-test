@@ -13,6 +13,7 @@ const Wrapper = styled.div`
   grid-template-columns: repeat(1, 1fr);
   grid-gap: 10px;
 `
+
 type MSTPType = {
     cats: Array<CatType>
 }
@@ -22,11 +23,13 @@ type MDTPType = {
 type PropsType = MDTPType & MSTPType
 
 const ItemsList = (props: PropsType) => {
+    /*hook*/
     const [term, changeTerm] = useState('')
+    /*first rendering component*/
     useEffect(() => {
         props.getCats()
     }, [])
-    console.log(term);
+    /*search bar realization*/
     const searchCat = (cats: Array<CatType>, term: string): Array<CatType> => {
         if (term.length === 0) {
             return cats
@@ -35,10 +38,10 @@ const ItemsList = (props: PropsType) => {
             return cat.name.toLowerCase().indexOf(term.toLowerCase()) > -1
         })
     }
-    console.log(searchCat(props.cats, term));
     const updateSearch = (term: string) => {
         changeTerm(term)
     }
+    /*render filtered cats*/
     const catsItems = searchCat(props.cats, term).map(item => <Item key={item.id} id={item.id}
                                                    name={item.name} more={item.more}
                                                    shortInfo={item.shortInfo}/>)

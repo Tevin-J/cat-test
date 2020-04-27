@@ -22,7 +22,7 @@ type MDTPType = {
 }
 type PropsType = MDTPType & MSTPType
 
-const ItemsList = (props: PropsType) => {
+const ItemsList: React.FC<PropsType> = (props) => {
     /*hook*/
     const [term, changeTerm] = useState('')
     /*first rendering component*/

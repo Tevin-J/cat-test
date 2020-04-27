@@ -5,17 +5,6 @@ import {AppStateType} from "../../store";
 import {getCatInfo} from "../../reducer";
 import './Item.css'
 
-type OwnPropsType = {
-    id: number
-    name: string
-    more: string
-    shortInfo: string
-}
-type MDTPType = {
-    getCatInfo: (id: number, more: string) => void
-}
-type PropsType = OwnPropsType & MDTPType
-
 const Wrapper = styled.div`
   margin-left: 5px;
   border: 2px solid skyblue;
@@ -30,7 +19,18 @@ const Wrapper = styled.div`
   }
 `
 
-const Item = (props: PropsType) => {
+type OwnPropsType = {
+    id: number
+    name: string
+    more: string
+    shortInfo: string
+}
+type MDTPType = {
+    getCatInfo: (id: number, more: string) => void
+}
+type PropsType = OwnPropsType & MDTPType
+
+const Item: React.FC<PropsType> = (props) => {
     /*props*/
     const name = props.name
     const shortInfo = props.shortInfo

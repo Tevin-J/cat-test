@@ -4,6 +4,10 @@ import {AppStateType} from "../../store";
 import {connect} from "react-redux";
 import styled from "styled-components";
 
+const Wrapper = styled.div`
+  margin: 30px;
+`
+
 type MSTPType = {
     cats: Array<CatType>
     currentCatId: number | null
@@ -11,10 +15,7 @@ type MSTPType = {
 }
 type PropsType = MSTPType
 
-const Wrapper = styled.div`
-  margin: 30px;
-`
-const ItemDetails = (props: PropsType) => {
+const ItemDetails: React.FC<PropsType> = (props) => {
     /*props*/
     const currentCatId = props.currentCatId
     const cats = props.cats

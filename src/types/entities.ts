@@ -2,7 +2,7 @@ export type CatType = {
     "id": number,
     "name": string,
     "shortInfo": string,
-    "more": string
+    "more": string,
 }
 export type CatInfoType = {
     id: number

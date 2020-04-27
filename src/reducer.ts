@@ -9,6 +9,7 @@ const initialState = {
     cats: [] as Array<CatType>,
     currentCatId: null as null | number,
     currentCatInfo: {} as CatInfoType,
+    removedCats: [] as Array<CatType>
 }
 
 const reducer = (state: InitialStateType = initialState, action: AppActionType): InitialStateType => {
@@ -28,6 +29,11 @@ const reducer = (state: InitialStateType = initialState, action: AppActionType):
                 ...state,
                 currentCatInfo: action.catInfo
             }
+        case 'REMOVE_CAT':
+            return {
+                ...state,
+                removedCats: [...state.removedCats, action.cat]
+            }
         default:
             return state
     }
@@ -38,7 +44,8 @@ type AppActionType = InferActionTypes<typeof actions>
 const actions = {
     setCatsSuccess: (cats: Array<CatType>) => ({type: 'SET_CATS', cats} as const),
     toggleCurrentCat: (id: number) => ({type: 'TOGGLE_CURRENT_CAT', id} as const),
-    setCatInfoSuccess: (catInfo: CatInfoType) => ({type: 'SET_CAT_INFO', catInfo} as const)
+    setCatInfoSuccess: (catInfo: CatInfoType) => ({type: 'SET_CAT_INFO', catInfo} as const),
+    removeCatSuccess: (cat: CatType) => ({type: 'REMOVE_CAT', cat} as const)
 }
 /*thunk creators*/
 type ThunkType = ThunkAction<void, AppStateType, unknown, AppActionType>
@@ -52,7 +59,7 @@ export const getCats = (): ThunkType => async (dispatch: ThunkDispatch<AppStateT
     }
 }
 export const getCatInfo = (id: number, more: string): ThunkType => async (dispatch: ThunkDispatch<AppStateType, unknown, AppActionType>,
-                                         getState: () => AppStateType) => {
+                                                                           getState: () => AppStateType) => {
     dispatch(actions.toggleCurrentCat(id))
     let response = await api.getCatInfo(more)
     try {
@@ -60,5 +67,9 @@ export const getCatInfo = (id: number, more: string): ThunkType => async (dispat
     } catch (e) {
         console.log(e);
     }
+}
+export const removeCat = (cat: CatType): ThunkType => async (dispatch: ThunkDispatch<AppStateType, unknown, AppActionType>,
+                                                                          getState: () => AppStateType) => {
+    dispatch(actions.removeCatSuccess(cat))
 }
 export default reducer

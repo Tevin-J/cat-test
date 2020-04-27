@@ -2,8 +2,9 @@ import React, {useState} from "react";
 import styled from "styled-components";
 import {connect} from "react-redux";
 import {AppStateType} from "../../store";
-import {getCatInfo} from "../../reducer";
+import {getCatInfo, removeCat} from "../../reducer";
 import './Item.css'
+import {CatType} from "../../types/entities";
 
 const Wrapper = styled.div`
   margin-left: 5px;
@@ -24,9 +25,11 @@ type OwnPropsType = {
     name: string
     more: string
     shortInfo: string
+    cat: CatType
 }
 type MDTPType = {
     getCatInfo: (id: number, more: string) => void
+    removeCat: (cat: CatType) => void
 }
 type PropsType = OwnPropsType & MDTPType
 
@@ -37,7 +40,7 @@ const Item: React.FC<PropsType> = (props) => {
     const id = props.id
     const more = props.more
     /*hook*/
-    const [isCatRemoved, removeCat] = useState(false)
+    const [isCatRemoved, addRemoveCatClass] = useState(false)
     /*classForRemovedCat*/
     const classesForCat = isCatRemoved ? 'removedCat' : ''
     return (
@@ -46,8 +49,11 @@ const Item: React.FC<PropsType> = (props) => {
                 <div>{name}</div>
                 <div>{shortInfo}</div>
             </div>
-            {isCatRemoved ? '' : <button onClick={() => removeCat(true)}>X</button>}
+            {isCatRemoved ? '' : <button onClick={() => {
+                props.removeCat(props.cat)
+                addRemoveCatClass(true)
+            }}>X</button>}
         </Wrapper>
     )
 }
-export default connect<{}, MDTPType, {}, AppStateType>(null, {getCatInfo})(Item)
+export default connect<{}, MDTPType, {}, AppStateType>(null, {getCatInfo, removeCat})(Item)
